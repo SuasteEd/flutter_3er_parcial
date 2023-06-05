@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1075556862215",
+    "project_id": "todolistproject-28f42",
+    "storage_bucket": "todolistproject-28f42.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1075556862215:android:70d1cdfd87b2dfaec79da2",
+        "android_client_info": {
+          "package_name": "com.example.examen_3er_parcial"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFSoBrNdxayMiEUJ7viAXZ-d7YexfRB5s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
