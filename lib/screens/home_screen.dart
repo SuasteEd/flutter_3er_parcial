@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
+import '../services/firebase_service.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -179,7 +181,8 @@ class _TasksState extends State<Tasks> {
               return InkWell(
                 onTap: () => print('Hola'),
                 child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   padding: const EdgeInsets.all(10),
                   height: 200,
                   //width: 100,
@@ -223,7 +226,38 @@ class _TasksState extends State<Tasks> {
               );
             },
           ),
-        )
+        ),
+        // StreamBuilder(
+        //     stream: FireBaseResponse().getUsers(),
+        //     builder: (context, snapshot) {
+        //       final data = snapshot.data?.docs;
+        //       if (!snapshot.hasData) {
+        //         return const Center(child: CircularProgressIndicator());
+        //       }
+        //       if (snapshot.hasError) {
+        //         return const Center(child: Text('Something went wrong'));
+        //       }
+        // return ListView(
+        //   children: <Widget>[
+        //     // ListTile es un widget que funciona como un bloque del ListView
+        //     ListTile(
+        //       // Tiene muchas propiedades que nos ayudan a ordenar la información.
+        //       // Titulo
+        //       title: Text('Primero'),
+        //       // Subtitulo
+        //       subtitle: Text('Este es el primer Tile'),
+        //       // Icono inicial del bloque
+        //       leading: Icon(Icons.add),
+        //       // Funcion que se ejecuta al hacer click en él
+        //       onTap: () {},
+        //     ),
+        //     ListTile(
+        //       title: Text('Primero'),
+        //       onTap: () {},
+        //     )
+        //   ],
+        // );
+        // }),
       ],
     );
   }
@@ -303,6 +337,8 @@ class Notes extends StatefulWidget {
 }
 
 class _NotesState extends State<Notes> {
+  bool _isSelected = false;
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -312,6 +348,80 @@ class _NotesState extends State<Notes> {
             title: '+ Add Notes',
             onPressed: () {},
           ),
+          StreamBuilder(
+              stream: FireBaseResponse().getUsers(),
+              builder: (context, snapshot) {
+                final data = snapshot.data?.docs;
+                if (!snapshot.hasData) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasError) {
+                  return const Center(child: Text('Something went wrong'));
+                }
+                return Center(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                          padding: EdgeInsets.zero,
+                          itemCount: 1,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () => print('Hola'),
+                              child: Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                padding: const EdgeInsets.all(10),
+                                height: 200,
+                                //width: 100,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'TAG',
+                                          style: AppTheme.textTitle
+                                              .copyWith(fontSize: 16),
+                                        ),
+                                        //IconButton(onPressed: (){}, icon: Icon(Icons.))
+                                        Checkbox(
+                                          value: _isSelected,
+                                          onChanged: (value) {
+                                            _isSelected = value!;
+                                            setState(() {});
+                                          },
+                                          activeColor: AppTheme.secondary,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                        )
+                                      ],
+                                    ),
+                                    Text(
+                                      'Title',
+                                      style: AppTheme.textTitle,
+                                    ),
+                                    Text(
+                                      'Description',
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              }),
         ],
       ),
     );

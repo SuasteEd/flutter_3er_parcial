@@ -302,15 +302,11 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final _name = TextEditingController();
   final _lastName = TextEditingController();
-  final _age = TextEditingController();
-  final _gender = TextEditingController();
+  final _birthday = TextEditingController();
   final _email = TextEditingController();
   final _password = TextEditingController();
-  final _role = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isPressed = false;
-  List<String> genderOptions = ['Female', 'Male', 'Other'];
-  List<String> roleOptions = ['Admin', 'Vendor', 'Customer'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -320,10 +316,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: Center(
         child: Column(
           children: [
-            Container(
-              height: 220,
-              child: Lottie.asset('assets/json/people.json'),
-            ),
+            // Container(
+            //   height: 220,
+            //   child: Lottie.asset('assets/json/people.json'),
+            // ),
             Form(
               key: _formKey,
               child: Column(
@@ -348,57 +344,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     validationMessage: 'Please enter a last name',
                   ),
                   CustomTextFormField(
-                    controller: _age,
-                    labelText: "Age",
-                    hintText: 'Enter your age',
+                    controller: _birthday,
+                    labelText: "Birthday",
+                    hintText: 'Enter your birthday',
                     obscureText: false,
                     icon: Icons.cake,
                     keyboardType: TextInputType.number,
                     validationMessage: 'Please enter your age',
                   ),
-                  Container(
-                    width: double.infinity,
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    height: 55,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: DropdownButtonFormField(
-                      //value: genderFromList,
-                      hint: const Text('Gender',
-                          style: TextStyle(color: Colors.black)),
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.zero,
-                        icon: Icon(
-                          Icons.person,
-                          color: Colors.black,
-                        ),
-                      ),
-                      isExpanded: true,
-                      onChanged: (value) {
-                        setState(() {
-                          _gender.text = value!;
-                        });
-                      },
-                      items: genderOptions
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                            value: value,
-                            child: Row(
-                              children: [
-                                const SizedBox(width: 10),
-                                Text(value),
-                              ],
-                            ));
-                      }).toList(),
-                    ),
-                  ),
+                  
                   CustomTextFormField(
                     controller: _email,
                     labelText: "Email",
@@ -417,49 +371,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     keyboardType: TextInputType.visiblePassword,
                     validationMessage: 'Please enter a password',
                   ),
-                  Container(
-                    width: double.infinity,
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    height: 55,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: DropdownButtonFormField(
-                      //value: widget.roleFromList,
-                      hint: const Text('Role',
-                          style: TextStyle(color: Colors.black)),
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.zero,
-                        icon: Icon(
-                          Icons.person_pin,
-                          color: Colors.black,
-                        ),
-                      ),
-                      isExpanded: true,
-                      onChanged: (value) {
-                        setState(() {
-                          _role.text = value!;
-                        });
-                      },
-                      items: roleOptions
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                            value: value,
-                            child: Row(
-                              children: [
-                                const SizedBox(width: 10),
-                                Text(value),
-                              ],
-                            ));
-                      }).toList(),
-                    ),
-                  ),
+                  
                 ],
               ),
             ),
