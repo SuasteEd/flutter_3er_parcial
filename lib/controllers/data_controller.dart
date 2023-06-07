@@ -43,6 +43,37 @@ class DataController extends GetxController {
     }
   }
 
+  Future<bool> addNote(Note note) async {
+    try {
+      await FireBaseResponse().postNote(note);
+      await getAllNotes();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> addTag(TagModel tagModel) async {
+    try {
+      await FireBaseResponse().postTag(tagModel);
+      await getAllTags();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> addTask(TaskModel task) async {
+    try {
+      await FireBaseResponse().postTask(task);
+      await getAllTasks();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+
   Future<bool> updateUser(User user) async {
     try {
       await FireBaseResponse().updateUserById(user);
@@ -54,10 +85,77 @@ class DataController extends GetxController {
     }
   }
 
+  Future<bool> updateNote(Note note) async {
+    try {
+      await FireBaseResponse().updateNoteById(note);
+      await getAllNotes();
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> updateTag(TagModel tagModel) async {
+    try {
+      await FireBaseResponse().updateTagById(tagModel);
+      await getAllTags();
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> updateTask(TaskModel taskModel) async {
+    try {
+      await FireBaseResponse().updateTaskById(taskModel);
+      await getAllTags();
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+
   Future<bool> deleteUser(String id) async {
     try {
       await FireBaseResponse().deleteUserById(id); 
       await getAllUsers();
+      return true;
+    } catch (e) {
+      print(e); 
+      return false;
+    }
+  }
+
+  Future<bool> deleteNote(String id) async {
+    try {
+      await FireBaseResponse().deleteNoteById(id); 
+      await getAllNotes();
+      return true;
+    } catch (e) {
+      print(e); 
+      return false;
+    }
+  }
+
+  Future<bool> deleteTag(String id) async {
+    try {
+      await FireBaseResponse().deleteTagById(id); 
+      await getAllTags();
+      return true;
+    } catch (e) {
+      print(e); 
+      return false;
+    }
+  }
+
+  Future<bool> deleteTask(String id) async {
+    try {
+      await FireBaseResponse().deleteTaskById(id); 
+      await getAllTasks();
       return true;
     } catch (e) {
       print(e); 

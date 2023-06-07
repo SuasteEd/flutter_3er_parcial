@@ -114,183 +114,183 @@ import 'package:lottie/lottie.dart';
 //   }
 // }
 
-// class UserForm extends StatefulWidget {
-//   const UserForm({
-//     super.key,
-//     required GlobalKey<FormState> formKey,
-//     required TextEditingController name,
-//     required TextEditingController lastName,
-//     required TextEditingController age,
-//     required TextEditingController gender,
-//     required TextEditingController email,
-//     required TextEditingController password,
-//     required TextEditingController role,
-//     this.genderFromList,
-//     this.roleFromList,
-//   })  : _formKey = formKey,
-//         _name = name,
-//         _lastName = lastName,
-//         _age = age,
-//         _gender = gender,
-//         _email = email,
-//         _password = password,
-//         _role = role;
+class UserForm extends StatefulWidget {
+  const UserForm({
+    super.key,
+    required GlobalKey<FormState> formKey,
+    required TextEditingController name,
+    required TextEditingController lastName,
+    required TextEditingController age,
+    required TextEditingController gender,
+    required TextEditingController email,
+    required TextEditingController password,
+    // required TextEditingController role,
+    // this.genderFromList,
+    // this.roleFromList,
+  })  : _formKey = formKey,
+        _name = name,
+        _lastName = lastName,
+        _age = age,
+        // _gender = gender,
+        _email = email,
+        _password = password;
+        // _role = role;
 
-//   final GlobalKey<FormState> _formKey;
-//   final TextEditingController _name;
-//   final TextEditingController _lastName;
-//   final TextEditingController _age;
-//   final TextEditingController _gender;
-//   final TextEditingController _email;
-//   final TextEditingController _password;
-//   final TextEditingController _role;
-//   final String? genderFromList;
-//   final String? roleFromList;
+  final GlobalKey<FormState> _formKey;
+  final TextEditingController _name;
+  final TextEditingController _lastName;
+  final TextEditingController _age;
+  // final TextEditingController _gender;
+  final TextEditingController _email;
+  final TextEditingController _password;
+  // final TextEditingController _role;
+  // final String? genderFromList;
+  // final String? roleFromList;
 
-//   @override
-//   State<UserForm> createState() => _UserFormState();
-// }
+  @override
+  State<UserForm> createState() => _UserFormState();
+}
 
-// class _UserFormState extends State<UserForm> {
-//   List<String> genderOptions = ['Female', 'Male', 'Other'];
-//   List<String> roleOptions = ['Admin', 'Vendor', 'Customer'];
-//   String selectedRole = 'Role';
-//   @override
-//   Widget build(BuildContext context) {
-//     return Form(
-//       key: widget._formKey,
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           CustomTextFormField(
-//             controller: widget._name,
-//             labelText: "Name",
-//             hintText: 'Enter your name',
-//             keyboardType: TextInputType.name,
-//             icon: Icons.person,
-//             obscureText: false,
-//             validationMessage: 'Please enter a name',
-//           ),
-//           CustomTextFormField(
-//             controller: widget._lastName,
-//             labelText: "Last Name",
-//             hintText: 'Enter your last name',
-//             keyboardType: TextInputType.name,
-//             obscureText: false,
-//             icon: Icons.person_outline,
-//             validationMessage: 'Please enter a last name',
-//           ),
-//           CustomTextFormField(
-//             controller: widget._age,
-//             labelText: "Age",
-//             hintText: 'Enter your age',
-//             obscureText: false,
-//             icon: Icons.cake,
-//             keyboardType: TextInputType.number,
-//             validationMessage: 'Please enter your age',
-//           ),
-//           Container(
-//             width: double.infinity,
-//             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-//             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-//             height: 55,
-//             decoration: BoxDecoration(
-//               color: Colors.white,
-//               border: Border.all(color: Colors.black),
-//               borderRadius: BorderRadius.circular(20),
-//             ),
-//             child: DropdownButtonFormField(
-//               value: widget.genderFromList,
-//               hint: const Text('Gender', style: TextStyle(color: Colors.black)),
-//               decoration: const InputDecoration(
-//                 border: InputBorder.none,
-//                 contentPadding: EdgeInsets.zero,
-//                 icon: Icon(
-//                   Icons.person,
-//                   color: Colors.black,
-//                 ),
-//               ),
-//               isExpanded: true,
-//               onChanged: (value) {
-//                 setState(() {
-//                   widget._gender.text = value!;
-//                 });
-//               },
-//               items:
-//                   genderOptions.map<DropdownMenuItem<String>>((String value) {
-//                 return DropdownMenuItem<String>(
-//                     value: value,
-//                     child: Row(
-//                       children: [
-//                         const SizedBox(width: 10),
-//                         Text(value),
-//                       ],
-//                     ));
-//               }).toList(),
-//             ),
-//           ),
-//           CustomTextFormField(
-//             controller: widget._email,
-//             labelText: "Email",
-//             hintText: 'Enter your email',
-//             icon: Icons.email,
-//             keyboardType: TextInputType.emailAddress,
-//             obscureText: false,
-//             validationMessage: 'Please enter a valid email',
-//           ),
-//           CustomTextFormField(
-//             controller: widget._password,
-//             labelText: "Password",
-//             hintText: 'Enter your password',
-//             icon: Icons.lock,
-//             obscureText: true,
-//             keyboardType: TextInputType.visiblePassword,
-//             validationMessage: 'Please enter a password',
-//           ),
-//           Container(
-//             width: double.infinity,
-//             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-//             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-//             height: 55,
-//             decoration: BoxDecoration(
-//               color: Colors.white,
-//               border: Border.all(color: Colors.black),
-//               borderRadius: BorderRadius.circular(20),
-//             ),
-//             child: DropdownButtonFormField(
-//               value: widget.roleFromList,
-//               hint: const Text('Role', style: TextStyle(color: Colors.black)),
-//               decoration: const InputDecoration(
-//                 border: InputBorder.none,
-//                 contentPadding: EdgeInsets.zero,
-//                 icon: Icon(
-//                   Icons.person_pin,
-//                   color: Colors.black,
-//                 ),
-//               ),
-//               isExpanded: true,
-//               onChanged: (value) {
-//                 setState(() {
-//                   widget._role.text = value!;
-//                 });
-//               },
-//               items: roleOptions.map<DropdownMenuItem<String>>((String value) {
-//                 return DropdownMenuItem<String>(
-//                     value: value,
-//                     child: Row(
-//                       children: [
-//                         const SizedBox(width: 10),
-//                         Text(value),
-//                       ],
-//                     ));
-//               }).toList(),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+class _UserFormState extends State<UserForm> {
+  // List<String> genderOptions = ['Female', 'Male', 'Other'];
+  // List<String> roleOptions = ['Admin', 'Vendor', 'Customer'];
+  // String selectedRole = 'Role';
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: widget._formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CustomTextFormField(
+            controller: widget._name,
+            labelText: "Name",
+            hintText: 'Enter your name',
+            keyboardType: TextInputType.name,
+            icon: Icons.person,
+            obscureText: false,
+            validationMessage: 'Please enter a name',
+          ),
+          // CustomTextFormField(
+          //   controller: widget._lastName,
+          //   labelText: "Last Name",
+          //   hintText: 'Enter your last name',
+          //   keyboardType: TextInputType.name,
+          //   obscureText: false,
+          //   icon: Icons.person_outline,
+          //   validationMessage: 'Please enter a last name',
+          // ),
+          CustomTextFormField(
+            controller: widget._age,
+            labelText: "Age",
+            hintText: 'Enter your age',
+            obscureText: false,
+            icon: Icons.cake,
+            keyboardType: TextInputType.number,
+            validationMessage: 'Please enter your age',
+          ),
+          Container(
+            width: double.infinity,
+            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            height: 55,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.black),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            // child: DropdownButtonFormField(
+            //   value: widget.genderFromList,
+            //   hint: const Text('Gender', style: TextStyle(color: Colors.black)),
+            //   decoration: const InputDecoration(
+            //     border: InputBorder.none,
+            //     contentPadding: EdgeInsets.zero,
+            //     icon: Icon(
+            //       Icons.person,
+            //       color: Colors.black,
+            //     ),
+            //   ),
+            //   isExpanded: true,
+            //   onChanged: (value) {
+            //     setState(() {
+            //       widget._gender.text = value!;
+            //     });
+            //   },
+            //   items:
+            //       genderOptions.map<DropdownMenuItem<String>>((String value) {
+            //     return DropdownMenuItem<String>(
+            //         value: value,
+            //         child: Row(
+            //           children: [
+            //             const SizedBox(width: 10),
+            //             Text(value),
+            //           ],
+            //         ));
+            //   }).toList(),
+            // ),
+          ),
+          CustomTextFormField(
+            controller: widget._email,
+            labelText: "Email",
+            hintText: 'Enter your email',
+            icon: Icons.email,
+            keyboardType: TextInputType.emailAddress,
+            obscureText: false,
+            validationMessage: 'Please enter a valid email',
+          ),
+          CustomTextFormField(
+            controller: widget._password,
+            labelText: "Password",
+            hintText: 'Enter your password',
+            icon: Icons.lock,
+            obscureText: true,
+            keyboardType: TextInputType.visiblePassword,
+            validationMessage: 'Please enter a password',
+          ),
+          // Container(
+          //   width: double.infinity,
+          //   margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          //   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          //   height: 55,
+          //   decoration: BoxDecoration(
+          //     color: Colors.white,
+          //     border: Border.all(color: Colors.black),
+          //     borderRadius: BorderRadius.circular(20),
+          //   ),
+          //   child: DropdownButtonFormField(
+          //     value: widget.roleFromList,
+          //     hint: const Text('Role', style: TextStyle(color: Colors.black)),
+          //     decoration: const InputDecoration(
+          //       border: InputBorder.none,
+          //       contentPadding: EdgeInsets.zero,
+          //       icon: Icon(
+          //         Icons.person_pin,
+          //         color: Colors.black,
+          //       ),
+          //     ),
+          //     isExpanded: true,
+          //     onChanged: (value) {
+          //       setState(() {
+          //         widget._role.text = value!;
+          //       });
+          //     },
+          //     items: roleOptions.map<DropdownMenuItem<String>>((String value) {
+          //       return DropdownMenuItem<String>(
+          //           value: value,
+          //           child: Row(
+          //             children: [
+          //               const SizedBox(width: 10),
+          //               Text(value),
+          //             ],
+          //           ));
+          //     }).toList(),
+          //   ),
+          // ),
+        ],
+      ),
+    );
+  }
+}
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
