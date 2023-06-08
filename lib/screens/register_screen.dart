@@ -202,19 +202,19 @@ class _UserFormState extends State<UserForm> {
       ),
     );
   }
-  Future<void> showCustomDatePicker(BuildContext context) async {
-    final DateTime currentDate = DateTime.now();
-    final DateTime minDate = DateTime(currentDate.year - 100);
-    final DateTime maxDate = DateTime(currentDate.year + 100);
+  // Future<void> showCustomDatePicker(BuildContext context) async {
+  //   final DateTime currentDate = DateTime.now();
+  //   final DateTime minDate = DateTime(currentDate.year - 100);
+  //   final DateTime maxDate = DateTime(currentDate.year + 100);
 
-    selectedDate = await showDatePicker(
-      context: context,
-      initialDate: currentDate,
-      firstDate: minDate,
-      lastDate: maxDate,
-    );
-    _birthday.text = DateFormat('dd/MM/yyyy').format(currentDate);
-  }
+  //   selectedDate = await showDatePicker(
+  //     context: context,
+  //     initialDate: currentDate,
+  //     firstDate: minDate,
+  //     lastDate: maxDate,
+  //   );
+  //   _birthday.text = DateFormat('dd/MM/yyyy').format(currentDate);
+  // }
 }
 
 class RegisterScreen extends StatefulWidget {
