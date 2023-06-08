@@ -28,7 +28,8 @@ class DataController extends GetxController {
 
   Future<void> getAllTags() async {
     tags.clear();
-    tags.value = await FireBaseResponse().getAllTags();
+    tags.addAll(await FireBaseResponse().getAllTags());
+    print(tags.first.color);
   }
 
 

@@ -1,3 +1,4 @@
+import 'package:examen_3er_parcial/controllers/data_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -11,9 +12,11 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final _controller = Get.put(DataController());
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () async {
+      await _controller.getAllTags();
       Get.to(() => const LoginScreen(),
           transition: Transition.circularReveal,
           duration: const Duration(seconds: 3));

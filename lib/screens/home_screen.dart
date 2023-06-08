@@ -1,12 +1,9 @@
-// import 'package:examen_3er_parcial/theme/app_theme.dart';
-import 'package:examen_3er_parcial/screens/screens.dart';
+import 'package:examen_3er_parcial/screens/tasks.dart';
 import 'package:examen_3er_parcial/theme/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
-
-import '../services/firebase_service.dart';
+import 'notes.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -156,113 +153,6 @@ class CustomAppBar extends StatelessWidget {
 //   }
 // }
 
-class Tasks extends StatefulWidget {
-  const Tasks({super.key});
-
-  @override
-  State<Tasks> createState() => _TasksState();
-}
-
-class _TasksState extends State<Tasks> {
-  bool _isSelected = false;
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Header(
-          title: '+ Add Task',
-          onPressed: () => Get.to(const CreateTaskScreen()),
-        ),
-        Expanded(
-          child: ListView.builder(
-            padding: EdgeInsets.zero,
-            itemCount: 10,
-            itemBuilder: (_, i) {
-              return InkWell(
-                onTap: () => print('Hola'),
-                child: Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  padding: const EdgeInsets.all(10),
-                  height: 200,
-                  //width: 100,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'TAG',
-                            style: AppTheme.textTitle.copyWith(fontSize: 16),
-                          ),
-                          //IconButton(onPressed: (){}, icon: Icon(Icons.))
-                          Checkbox(
-                            value: _isSelected,
-                            onChanged: (value) {
-                              _isSelected = value!;
-                              setState(() {});
-                            },
-                            activeColor: AppTheme.secondary,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                          )
-                        ],
-                      ),
-                      Text(
-                        'Title',
-                        style: AppTheme.textTitle,
-                      ),
-                      Text(
-                        'Description',
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-        // StreamBuilder(
-        //     stream: FireBaseResponse().getUsers(),
-        //     builder: (context, snapshot) {
-        //       final data = snapshot.data?.docs;
-        //       if (!snapshot.hasData) {
-        //         return const Center(child: CircularProgressIndicator());
-        //       }
-        //       if (snapshot.hasError) {
-        //         return const Center(child: Text('Something went wrong'));
-        //       }
-        // return ListView(
-        //   children: <Widget>[
-        //     // ListTile es un widget que funciona como un bloque del ListView
-        //     ListTile(
-        //       // Tiene muchas propiedades que nos ayudan a ordenar la información.
-        //       // Titulo
-        //       title: Text('Primero'),
-        //       // Subtitulo
-        //       subtitle: Text('Este es el primer Tile'),
-        //       // Icono inicial del bloque
-        //       leading: Icon(Icons.add),
-        //       // Funcion que se ejecuta al hacer click en él
-        //       onTap: () {},
-        //     ),
-        //     ListTile(
-        //       title: Text('Primero'),
-        //       onTap: () {},
-        //     )
-        //   ],
-        // );
-        // }),
-      ],
-    );
-  }
-}
-
 class Header extends StatelessWidget {
   const Header({
     super.key,
@@ -323,105 +213,6 @@ class Header extends StatelessWidget {
               ),
             ],
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class Notes extends StatefulWidget {
-  const Notes({super.key});
-
-  @override
-  State<Notes> createState() => _NotesState();
-}
-
-class _NotesState extends State<Notes> {
-  bool _isSelected = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          Header(
-            title: '+ Add Notes',
-            onPressed: () {},
-          ),
-          StreamBuilder(
-              stream: FireBaseResponse().getUsers(),
-              builder: (context, snapshot) {
-                final data = snapshot.data?.docs;
-                if (!snapshot.hasData) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                if (snapshot.hasError) {
-                  return const Center(child: Text('Something went wrong'));
-                }
-                return Center(
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: ListView.builder(
-                          padding: EdgeInsets.zero,
-                          itemCount: 1,
-                          itemBuilder: (context, index) {
-                            return InkWell(
-                              onTap: () => print('Hola'),
-                              child: Container(
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 5),
-                                padding: const EdgeInsets.all(10),
-                                height: 200,
-                                //width: 100,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'TAG',
-                                          style: AppTheme.textTitle
-                                              .copyWith(fontSize: 16),
-                                        ),
-                                        //IconButton(onPressed: (){}, icon: Icon(Icons.))
-                                        Checkbox(
-                                          value: _isSelected,
-                                          onChanged: (value) {
-                                            _isSelected = value!;
-                                            setState(() {});
-                                          },
-                                          activeColor: AppTheme.secondary,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                        )
-                                      ],
-                                    ),
-                                    Text(
-                                      'Title',
-                                      style: AppTheme.textTitle,
-                                    ),
-                                    Text(
-                                      'Description',
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              }),
         ],
       ),
     );

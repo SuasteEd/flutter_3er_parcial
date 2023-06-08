@@ -9,6 +9,7 @@ class CustomTextFormField extends StatelessWidget {
   final String validationMessage;
   final TextInputType keyboardType;
   final bool? enabled;
+  final void Function()? onTap;
   final void Function()? changes;
   const CustomTextFormField({
     super.key,
@@ -19,7 +20,7 @@ class CustomTextFormField extends StatelessWidget {
     required this.obscureText, 
     required this.validationMessage,
     required this.keyboardType, 
-    this.changes, this.enabled
+    this.changes, this.enabled, this.onTap
   });
 
   @override
@@ -27,6 +28,7 @@ class CustomTextFormField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: TextFormField(
+        onTap: onTap,
         enabled: enabled,
         cursorColor: Colors.black,
         controller: controller,
@@ -39,6 +41,7 @@ class CustomTextFormField extends StatelessWidget {
         return null;
       },
         decoration: InputDecoration(
+          enabled: enabled ?? true,
           labelText: labelText,
           hintText: hintText,
           prefixIcon: Icon(icon),
