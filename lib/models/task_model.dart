@@ -1,18 +1,15 @@
 class TaskModel {
   String? id;
-  String createdAt;
-  //String finichedAt;
   String idUser;
   String tag;
   String title;
   String description;
   String date;
   bool isCompleted;
-  int priority;
+  String priority;
 
   TaskModel({
     this.id,
-    required this.createdAt,
     required this.idUser,
     required this.tag,
     required this.title,

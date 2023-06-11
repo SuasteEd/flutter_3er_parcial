@@ -1,9 +1,14 @@
 import 'package:examen_3er_parcial/screens/tasks.dart';
 import 'package:examen_3er_parcial/theme/app_theme.dart';
+import 'package:examen_3er_parcial/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'login_screen.dart';
 import 'notes.dart';
+import 'tags.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _children = [
     const Tasks(),
     const Notes(),
+    const Tags()
   ];
   @override
   Widget build(BuildContext context) {
@@ -51,13 +57,18 @@ class _HomeScreenState extends State<HomeScreen> {
           onTap: (i) => setState(() => _currentIndex = i),
           items: [
             SalomonBottomBarItem(
-              icon: const Icon(Icons.hourglass_bottom),
+              icon: const Icon(Icons.task_alt_outlined),
               title: const Text('Tasks'),
               selectedColor: Colors.white,
             ),
             SalomonBottomBarItem(
-              icon: const Icon(Icons.done),
+              icon: const Icon(Icons.format_list_bulleted_outlined),
               title: const Text('Notes'),
+              selectedColor: Colors.white,
+            ),
+            SalomonBottomBarItem(
+              icon: const Icon(Icons.tag),
+              title: const Text('Tags'),
               selectedColor: Colors.white,
             ),
           ]),
@@ -164,6 +175,8 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('dd-MMM-yyyy – kk:mm').format(now);
     final size = MediaQuery.of(context).size;
     const textStyle = TextStyle(
         color: Colors.black, fontWeight: FontWeight.bold, fontSize: 24);
@@ -186,19 +199,26 @@ class Header extends StatelessWidget {
                 radius: 30,
                 child: Lottie.asset('assets/json/splash.json'),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(onPressed: () => Get.toNamed('login'), child: const Icon(Icons.logout)),
+                  TextButton(onPressed: () => Get.toNamed('register'), child: const Icon(Icons.settings)),
+                ],
+              ),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Column(
-                children: const [
+                children:  [
                   Text(
-                    'May 30, 2023',
-                    style: TextStyle(
+                    formattedDate,
+                    style: const TextStyle(
                         color: Colors.grey, fontWeight: FontWeight.bold),
                   ),
-                  Text('Today', style: textStyle),
+                  const Text('Today', style: textStyle),
                 ],
               ),
               MaterialButton(

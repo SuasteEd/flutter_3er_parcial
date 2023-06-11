@@ -55,14 +55,13 @@ class FireBaseResponse {
     for (var element in querySnapshot.docs) {
       tasksModel.add(TaskModel(
         id: element.id,
-        createdAt: element['createdAt'],
-        idUser: element['idUser'],
-        tag: element['tag'],
-        title: element['title'],
-        description: element['description'],
         date: element['date'],
+        description: element['description'],
+        tag: element['idTag'],
+        idUser: element['idUser'],
         isCompleted: element['isCompleted'],
-        priority: element['priorit'],
+        priority: element['priority'],
+        title: element['title'],
       ));
     }
 
@@ -75,10 +74,10 @@ class FireBaseResponse {
     for (var element in querySnapshot.docs) {
       tagsModel.add(TagModel(
           id: element.id,
-          name: element['name'],
-          description: element['description'],
           color: element['color'],
-          icon: element['icon']
+          description: element['description'],
+          icon: element['icon'],
+          name: element['name']
           ));
     }
 
@@ -91,10 +90,10 @@ class FireBaseResponse {
     for (var element in querySnapshot.docs) {
       usersModel.add(User(
         id: element.id,
-        name: element['name'],
-        email: element['email'],
-        password: element['password'],
         birthday: element['birthday'],
+        email: element['email'],
+        name: element['name'],
+        password: element['password'],
       ));
     }
     return usersModel;
@@ -132,14 +131,13 @@ class FireBaseResponse {
 
   Future<void> postTask(TaskModel taskModel) async {
     await _tasks.add({
-      'createdAt': taskModel.createdAt,
-      'idUser': taskModel.idUser,
-      'tag': taskModel.tag,
-      'title': taskModel.title,
-      'description': taskModel.description,
       'date': taskModel.date,
+      'description': taskModel.description,
+      'idUser': taskModel.idUser,
+      'idTag': taskModel.tag,
       'isCompleted': taskModel.isCompleted,
-      'priority': taskModel.priority
+      'priority': taskModel.priority,
+      'title': taskModel.title
     });
   }
 
@@ -175,7 +173,6 @@ class FireBaseResponse {
 
   Future<void> updateTaskById(TaskModel taskModel) async {
     await _tasks.doc(taskModel.id).update({
-      'createdAt': taskModel.createdAt,
       'idUser': taskModel.idUser,
       'tag': taskModel.tag,
       'title': taskModel.title,

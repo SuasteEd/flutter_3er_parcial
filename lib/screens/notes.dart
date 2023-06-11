@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../services/firebase_service.dart';
 import '../theme/app_theme.dart';
+import 'create_note_screen.dart';
 import 'home_screen.dart';
 
 class Notes extends StatefulWidget {
@@ -19,13 +20,15 @@ class _NotesState extends State<Notes> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = new DateTime.now();
+  DateTime date = new DateTime(now.year, now.month, now.day);
     final _size = MediaQuery.of(context).size;
     return Center(
       child: Column(
         children: [
           Header(
             title: '+ Add Notes',
-            onPressed: () {},
+            onPressed: () => Get.to(const CreateNoteScreen()),
           ),
           StreamBuilder(
               stream: FireBaseResponse().getNotes(),

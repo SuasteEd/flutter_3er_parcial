@@ -8,6 +8,9 @@ class AppRoutes {
     '/' : (_) => const SplashScreen(),
     'login': (_) => LoginScreen(),
     'register': (_) => RegisterScreen(),
+    'detailTask': (_) => DetailTask(),
+    'notes': (_) =>  Notes(),
+    'menu': (_) =>  HomeScreen()
   };
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {

@@ -49,7 +49,13 @@ class _TasksState extends State<Tasks> {
                           itemCount: data?.length ?? 0,
                           itemBuilder: (context, index) {
                             return InkWell(
-                              onTap: () => print('Hola'),
+                              onTap: () {
+                                print("hola");
+                                  Navigator.of(context).pushNamed('detailTask',
+                                      arguments: _controller.tasks.firstWhere(
+                                          (element) =>
+                                              element.id == data[index].id));
+                                },
                               child: Container(
                                 margin: const EdgeInsets.symmetric(
                                     horizontal: 10, vertical: 5),

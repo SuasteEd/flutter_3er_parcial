@@ -150,6 +150,7 @@ class UserForm extends StatefulWidget {
 
 class _UserFormState extends State<UserForm> {
   // final TextEditingController birthday;
+  DateTime? selectedDate;
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -166,19 +167,19 @@ class _UserFormState extends State<UserForm> {
             obscureText: false,
             validationMessage: 'Please enter a name',
           ),
-          // InkWell(
-          //   onTap: () => showCustomDatePicker(context),
-          //   child: CustomTextFormField(
-          //       enabled: false,
-          //       labelText: 'Birthday',
-          //       hintText: '',
-          //       icon: Icons.date_range,
-          //       controller: widget._birthday,
-          //       obscureText: false,
-          //       validationMessage: 'Field is required',
-          //       //onTap: () => showCustomDatePicker(context),
-          //       keyboardType: TextInputType.name),
-          // ),
+          InkWell(
+            onTap: () => showCustomDatePicker(context),
+            child: CustomTextFormField(
+                enabled: false,
+                labelText: 'Birthday',
+                hintText: '',
+                icon: Icons.date_range,
+                controller: widget._birthday,
+                obscureText: false,
+                validationMessage: 'Field is required',
+                //onTap: () => showCustomDatePicker(context),
+                keyboardType: TextInputType.name),
+          ),
           
           CustomTextFormField(
             controller: widget._email,
@@ -202,19 +203,19 @@ class _UserFormState extends State<UserForm> {
       ),
     );
   }
-  // Future<void> showCustomDatePicker(BuildContext context) async {
-  //   final DateTime currentDate = DateTime.now();
-  //   final DateTime minDate = DateTime(currentDate.year - 100);
-  //   final DateTime maxDate = DateTime(currentDate.year + 100);
+  Future<void> showCustomDatePicker(BuildContext context) async {
+    final DateTime currentDate = DateTime.now();
+    final DateTime minDate = DateTime(currentDate.year - 100);
+    final DateTime maxDate = DateTime(currentDate.year + 100);
 
-  //   selectedDate = await showDatePicker(
-  //     context: context,
-  //     initialDate: currentDate,
-  //     firstDate: minDate,
-  //     lastDate: maxDate,
-  //   );
-  //   _birthday.text = DateFormat('dd/MM/yyyy').format(currentDate);
-  // }
+    selectedDate = await showDatePicker(
+      context: context,
+      initialDate: currentDate,
+      firstDate: minDate,
+      lastDate: maxDate,
+    );
+    widget._birthday.text = DateFormat('dd/MM/yyyy').format(currentDate);
+  }
 }
 
 class RegisterScreen extends StatefulWidget {
