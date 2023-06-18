@@ -1,3 +1,5 @@
+import 'package:examen_3er_parcial/services/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -14,9 +16,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
+  final username = TextEditingController();
+  final password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final _auth = Auth();
   bool _isPressed = false;
 
   @override
@@ -39,21 +42,24 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: Colors.white)),
               LoginForm(
                   formKey: _formKey,
-                  usernameController: usernameController,
-                  passwordController: passwordController),
+                  usernameController: username,
+                  passwordController: password),
               CustomButton(
                 text: _isPressed
                     ? const LoadingButton()
                     : const Text('Sign in', style: AppTheme.textButton),
                 onPressed: () {
+                  login();
                   if (_formKey.currentState!.validate()) {
                     setState(() {
                       _isPressed = true;
                     });
+                    
                     Future.delayed(const Duration(seconds: 2), () {
                       Navigator.of(context)
                           .pushNamedAndRemoveUntil('home', (route) => false);
                     });
+                   // _auth.login(username.text, password.text);
                   }
                 },
               ),
@@ -79,6 +85,18 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+}
+
+void login(){
+  FirebaseAuth.instance
+  .authStateChanges()
+  .listen((User? user) {
+    if (user == null) {
+      print('User is currently signed out!');
+    } else {
+      print('User is signed in!');
+    }
+  });
 }
 
 class LoginForm extends StatelessWidget {

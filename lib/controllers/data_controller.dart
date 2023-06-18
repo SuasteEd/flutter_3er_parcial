@@ -29,10 +29,7 @@ class DataController extends GetxController {
   Future<void> getAllTags() async {
     tags.clear();
     tags.addAll(await FireBaseResponse().getAllTags());
-    print(tags.first.color);
   }
-
-
 
   Future<bool> addUser(User user) async {
     try {
@@ -74,7 +71,6 @@ class DataController extends GetxController {
     }
   }
 
-
   Future<bool> updateUser(User user) async {
     try {
       await FireBaseResponse().updateUserById(user);
@@ -114,54 +110,56 @@ class DataController extends GetxController {
       await getAllTags();
       return true;
     } catch (e) {
+      print('Error: $e');
+      return false;
+    }
+  }
+
+  Future<bool> deleteUser(String id) async {
+    try {
+      await FireBaseResponse().deleteUserById(id);
+      await getAllUsers();
+      return true;
+    } catch (e) {
       print(e);
       return false;
     }
   }
 
-
-  Future<bool> deleteUser(String id) async {
-    try {
-      await FireBaseResponse().deleteUserById(id); 
-      await getAllUsers();
-      return true;
-    } catch (e) {
-      print(e); 
-      return false;
-    }
+  Future<void> postTaskIsCompleted(bool isCompleted, String id) async {
+    FireBaseResponse().postTaskIsCompleted(isCompleted, id);
   }
 
   Future<bool> deleteNote(String id) async {
     try {
-      await FireBaseResponse().deleteNoteById(id); 
+      await FireBaseResponse().deleteNoteById(id);
       await getAllNotes();
       return true;
     } catch (e) {
-      print(e); 
+      print(e);
       return false;
     }
   }
 
   Future<bool> deleteTag(String id) async {
     try {
-      await FireBaseResponse().deleteTagById(id); 
+      await FireBaseResponse().deleteTagById(id);
       await getAllTags();
       return true;
     } catch (e) {
-      print(e); 
+      print(e);
       return false;
     }
   }
 
   Future<bool> deleteTask(String id) async {
     try {
-      await FireBaseResponse().deleteTaskById(id); 
+      await FireBaseResponse().deleteTaskById(id);
       await getAllTasks();
       return true;
     } catch (e) {
-      print(e); 
+      print(e);
       return false;
     }
   }
-
 }

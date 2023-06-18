@@ -1,12 +1,11 @@
 import 'package:examen_3er_parcial/screens/tasks.dart';
 import 'package:examen_3er_parcial/theme/app_theme.dart';
-import 'package:examen_3er_parcial/widgets/custom_button.dart';
+import 'package:examen_3er_parcial/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
-import 'login_screen.dart';
 import 'notes.dart';
 import 'tags.dart';
 
@@ -28,30 +27,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      //appBar: AppBar(backgroundColor: Colors.white),
-      //drawer: Drawer(),
-      // body: CustomScrollView(
-      //   slivers: [
-      //     CustomAppBar(),
-      //     SliverList(
-      //       delegate: SliverChildListDelegate([
-      //          SizedBox(
-      //                 height: size.height * 0.05,
-      //                 child: ListView.builder(
-      //                   itemCount: 10,
-      //                   itemBuilder: (_, i) {
-      //                   return Container(
-      //                     height: 100,
-      //                     width: 100,
-      //                     color: Colors.red,
-      //                   );
-      //                 }),
-      //               ),
-      //       ]),
-      //     ),
-      //   ],
-      // ),
-      body: _children[_currentIndex],
+      appBar: AppBar(backgroundColor: Colors.white),
+      drawer: CustomDrawer(),
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _children,
+      ),
       bottomNavigationBar: SalomonBottomBar(
           currentIndex: _currentIndex,
           onTap: (i) => setState(() => _currentIndex = i),
@@ -123,47 +104,6 @@ class CustomAppBar extends StatelessWidget {
   }
 }
 
-// class HomeScreen extends StatelessWidget {
-//   const HomeScreen({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             Lottie.asset('assets/json/splash.json'),
-//             TextButton(
-//                 onPressed: () {},
-//                 child: Text(
-//                   'ToDo',
-//                   style: AppTheme.textButton,
-//                 )),
-//             TextButton(
-//                 onPressed: () {},
-//                 child: Text(
-//                   'Notes',
-//                   style: AppTheme.textButton,
-//                 )),
-//             TextButton(
-//                 onPressed: () {},
-//                 child: Text(
-//                   'Tags',
-//                   style: AppTheme.textButton,
-//                 )),
-//           ],
-//         ),
-//       ),
-//       floatingActionButton: FloatingActionButton(
-//         backgroundColor: AppTheme.secondary,
-//         onPressed: () {},
-//         child: Icon(Icons.settings),
-//       ),
-//     );
-//   }
-// }
-
 class Header extends StatelessWidget {
   const Header({
     super.key,
@@ -181,7 +121,7 @@ class Header extends StatelessWidget {
     const textStyle = TextStyle(
         color: Colors.black, fontWeight: FontWeight.bold, fontSize: 24);
     return Container(
-      height: size.height * 0.22,
+      height: size.height * 0.17,
       //color: Colors.white,
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -190,7 +130,6 @@ class Header extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -198,13 +137,6 @@ class Header extends StatelessWidget {
               CircleAvatar(
                 radius: 30,
                 child: Lottie.asset('assets/json/splash.json'),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(onPressed: () => Get.toNamed('login'), child: const Icon(Icons.logout)),
-                  TextButton(onPressed: () => Get.toNamed('register'), child: const Icon(Icons.settings)),
-                ],
               ),
             ],
           ),

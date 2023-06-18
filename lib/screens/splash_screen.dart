@@ -12,14 +12,13 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final _controller = Get.put(DataController());
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 2), () async {
-      await _controller.getAllTags();
+      await Get.put(DataController()).getAllTags();
       Get.to(() => const LoginScreen(),
           transition: Transition.circularReveal,
-          duration: const Duration(seconds: 3));
+          duration: const Duration(seconds: 2));
     });
     super.initState();
   }

@@ -38,7 +38,6 @@ class FireBaseResponse {
     for (var element in querySnapshot.docs) {
       notesModel.add(Note(
           id: element.id,
-          createdAt: element['createdAt'],
           idUser: element['idUser'],
           idTag: element['idTag'],
           title: element['title'],
@@ -76,7 +75,6 @@ class FireBaseResponse {
           id: element.id,
           color: element['color'],
           description: element['description'],
-          icon: element['icon'],
           name: element['name']
           ));
     }
@@ -102,7 +100,6 @@ class FireBaseResponse {
 
   Future<void> postNote(Note note) async {
     await _notes.add({
-      'createdAt': note.createdAt,
       'idUser': note.idUser,
       'idTag': note.idTag,
       'title': note.title,
@@ -121,11 +118,10 @@ class FireBaseResponse {
   }
 
   Future<void> postTag(TagModel tagModel) async {
-    await _users.add({
+    await _tags.add({
       'name': tagModel.name,
       'description': tagModel.description,
-      'color': tagModel.color,
-      'icon': tagModel.icon
+      'color': tagModel.color
     });
   }
 
@@ -141,6 +137,11 @@ class FireBaseResponse {
     });
   }
 
+   Future<void> postTaskIsCompleted(bool isCompleted, String id) async {
+    await _tasks.doc(id).update({
+      'isCompleted': isCompleted
+    });
+  }
 
   Future<void> updateUserById(User user) async {
     await _users.doc(user.id).update({
@@ -153,7 +154,6 @@ class FireBaseResponse {
 
   Future<void> updateNoteById(Note note) async {
     await _notes.doc(note.id).update({
-      'createdAt': note.createdAt,
       'idUser': note.idUser,
       'idTag': note.idTag,
       'title': note.title,
@@ -167,7 +167,6 @@ class FireBaseResponse {
       'name': tagModel.name,
       'description': tagModel.description,
       'color': tagModel.color,
-      'icon': tagModel.icon
     });
   }
 
@@ -200,5 +199,6 @@ class FireBaseResponse {
     await _tags.doc(id).delete();
   }
 
+  
   
 }

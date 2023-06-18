@@ -6,14 +6,15 @@ class AppRoutes {
 
   static Map<String, Widget Function(BuildContext)> routes = {
     '/' : (_) => const SplashScreen(),
-    'login': (_) => LoginScreen(),
-    'register': (_) => RegisterScreen(),
-    'detailTask': (_) => DetailTask(),
-    'notes': (_) =>  Notes(),
-    'menu': (_) =>  HomeScreen()
+    'login': (_) => const LoginScreen(),
+    'register': (_) => const RegisterScreen(),
+    'detailTask': (_) => const DetailTask(),
+    'createTask': (_) => const CreateTaskScreen(),
+    'notes': (_) =>  const Notes(),
+    'menu': (_) =>  const HomeScreen()
   };
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
-    return MaterialPageRoute(builder: (context) => HomeScreen());
+    return MaterialPageRoute(builder: (context) => const HomeScreen());
   }
 }

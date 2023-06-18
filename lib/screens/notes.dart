@@ -1,7 +1,10 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:examen_3er_parcial/controllers/data_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 
+import '../models/note_model.dart';
 import '../services/firebase_service.dart';
 import '../theme/app_theme.dart';
 import 'create_note_screen.dart';
@@ -16,13 +19,10 @@ class Notes extends StatefulWidget {
 
 class _NotesState extends State<Notes> {
   final _controller = Get.put(DataController());
-  bool _isSelected = false;
 
   @override
   Widget build(BuildContext context) {
-    DateTime now = new DateTime.now();
-  DateTime date = new DateTime(now.year, now.month, now.day);
-    final _size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     return Center(
       child: Column(
         children: [
@@ -42,86 +42,107 @@ class _NotesState extends State<Notes> {
                 }
                 return Center(
                   child: SizedBox(
-                    height: _size.height * 0.7,
+                    height: size.height * 0.65,
                     child: Column(
                       children: [
                         Expanded(
                           child: ListView.builder(
                             padding: EdgeInsets.zero,
-                            itemCount: 1,
+                            itemCount: data?.length ?? 0,
                             itemBuilder: (context, index) {
                               return InkWell(
-                                onTap: () => print('Hola'),
-                                child: Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 5),
-                                  padding: const EdgeInsets.all(10),
-                                  height: 200,
-                                  //width: 100,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                            height: 30,
-                                            padding: EdgeInsets.all(3),
+                                onTap: () async {
+                                  // final note = _controller.notes.firstWhere(
+                                  //     (e) => e.id == data[index].id);
+                                  final note = Note(
+                                      id: data[index].id,
+                                      title: data[index]['title'],
+                                      description: data[index]['description'],
+                                      idUser: '',
+                                      idTag: data[index]['idTag'],
+                                      date: data[index]['date']);
+                                  Get.to(
+                                    CreateNoteScreen(
+                                      note: note,
+                                    ),
+                                  );
+                                },
+                                child: Slidable(
+                                  startActionPane: ActionPane(
+                                      motion: const ScrollMotion(),
+                                      children: [
+                                        SlidableAction(
+                                            onPressed: (context) {
+                                              _controller
+                                                  .deleteNote(data![index].id);
+                                            },
+                                            label: 'Delete',
+                                            backgroundColor: Colors.red,
+                                            icon: Icons.delete),
+                                      ]),
+                                  child: Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 5, horizontal: 5),
+                                    height: size.height * 0.15,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            padding: const EdgeInsets.all(8),
+                                            width: double.infinity,
                                             decoration: BoxDecoration(
                                               color: getColor(
-                                                  data![index]['idTag']),
+                                                      data![index]['idTag'])
+                                                  .withOpacity(0.9),
                                               borderRadius:
-                                                  BorderRadius.circular(10),
+                                                  const BorderRadius.only(
+                                                      topLeft:
+                                                          Radius.circular(10),
+                                                      topRight:
+                                                          Radius.circular(10)),
                                             ),
-                                            child: Center(
-                                              child: Text(
-                                                // data != null
-                                                //     ? data[index]['title']
-                                                //     : '',
-                                                getTagTitle(
-                                                    data[index]['idTag']),
-                                                // FireBaseResponse()
-                                                //     .getUsers()
-                                                //     .toString()[index][1],
-                                                style: AppTheme.textTitle
-                                                    .copyWith(fontSize: 16),
-                                                textAlign: TextAlign.center,
-                                              ),
+                                            child: Text(
+                                              getTagTitle(data[index]['idTag']),
                                             ),
                                           ),
-                                          //IconButton(onPressed: (){}, icon: Icon(Icons.))
-                                          // Checkbox(
-                                          //   value: _isSelected,
-                                          //   onChanged: (value) {
-                                          //     _isSelected = value!;
-                                          //     //getColor(data![index]['idTag']);
-                                          //     setState(() {});
-                                          //   },
-                                          //   activeColor: AppTheme.secondary,
-                                          //   shape: RoundedRectangleBorder(
-                                          //       borderRadius:
-                                          //           BorderRadius.circular(10)),
-                                          // )
-                                        ],
-                                      ),
-                                      Text(
-                                        data != null
-                                            ? data[index]['title']
-                                            : '',
-                                        style: AppTheme.textTitle,
-                                      ),
-                                      Text(
-                                        data != null
-                                            ? data[index]['description']
-                                            : '',
-                                      ),
-                                    ],
+                                        ),
+                                        Expanded(
+                                          flex: 3,
+                                          child: Container(
+                                            width: double.infinity,
+                                            padding: const EdgeInsets.all(10),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  data[index]['title'] ?? '',
+                                                  style: AppTheme.textTitle,
+                                                ),
+                                                Text(
+                                                    data[index]
+                                                            ['description'] ??
+                                                        '',
+                                                    style: const TextStyle(
+                                                        color: Colors.grey,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                const Spacer(),
+                                                Text(data[index]['date'] ?? '',
+                                                    style: const TextStyle(
+                                                        color: Colors.grey,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );
@@ -150,6 +171,22 @@ class _NotesState extends State<Notes> {
     switch (color.color) {
       case 'rojo':
         return Colors.red;
+      case 'azul':
+        return Colors.blue;
+      case 'verde':
+        return Colors.green;
+      case 'amarillo':
+        return Colors.yellow;
+      case 'morado':
+        return Colors.purple;
+      case 'rosa':
+        return Colors.pink;
+      case 'naranja':
+        return Colors.orange;
+      case 'cafe':
+        return Colors.brown;
+      case 'gris':
+        return Colors.grey;
     }
     return Colors.transparent;
   }
