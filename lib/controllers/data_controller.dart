@@ -6,7 +6,7 @@ import '../models/tag_model.dart';
 import '../services/firebase_service.dart';
 
 class DataController extends GetxController {
-  final users = <User>[].obs;
+  final users = <UserModel>[].obs;
   final notes = <Note>[].obs;
   final tasks = <TaskModel>[].obs;
   final tags = <TagModel>[].obs;
@@ -31,7 +31,7 @@ class DataController extends GetxController {
     tags.addAll(await FireBaseResponse().getAllTags());
   }
 
-  Future<bool> addUser(User user) async {
+  Future<bool> addUser(UserModel user) async {
     try {
       await FireBaseResponse().postUser(user);
       await getAllUsers();
@@ -71,7 +71,7 @@ class DataController extends GetxController {
     }
   }
 
-  Future<bool> updateUser(User user) async {
+  Future<bool> updateUser(UserModel user) async {
     try {
       await FireBaseResponse().updateUserById(user);
       await getAllUsers();

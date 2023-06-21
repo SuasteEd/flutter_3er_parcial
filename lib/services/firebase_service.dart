@@ -82,11 +82,11 @@ class FireBaseResponse {
     return tagsModel;
   }
 
-  Future<List<User>> getAllUsers() async {
-    List<User> usersModel = [];
+  Future<List<UserModel>> getAllUsers() async {
+    List<UserModel> usersModel = [];
     QuerySnapshot querySnapshot = await _users.get();
     for (var element in querySnapshot.docs) {
-      usersModel.add(User(
+      usersModel.add(UserModel(
         id: element.id,
         birthday: element['birthday'],
         email: element['email'],
@@ -108,7 +108,7 @@ class FireBaseResponse {
     });
   }
 
-  Future<void> postUser(User user) async {
+  Future<void> postUser(UserModel user) async {
     await _users.add({
       'name': user.name,
       'email': user.email,
@@ -143,7 +143,7 @@ class FireBaseResponse {
     });
   }
 
-  Future<void> updateUserById(User user) async {
+  Future<void> updateUserById(UserModel user) async {
     await _users.doc(user.id).update({
       'name': user.name,
       'email': user.email,

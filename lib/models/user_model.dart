@@ -1,11 +1,11 @@
-class User {
+class UserModel {
   String? id;
   String name;
   String email;
   String password;
   String birthday;
 
-  User({
+  UserModel({
     this.id,
     required this.name,
     required this.email,

@@ -14,7 +14,7 @@ import 'package:lottie/lottie.dart';
 import '../models/user_model.dart';
 
 class RegisterScreen extends StatefulWidget {
-  final User? user;
+  final UserModel? user;
   const RegisterScreen({Key? key, this.user}) : super(key: key);
 
   @override
@@ -75,7 +75,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   if (_formKey.currentState!.validate()) {
                     _isPressed = true;
                     //await _post(args, context);
-                    await _auth.register(_email.text, _password.text);
+                    final userModel = UserModel(name: _name.text, email: _email.text, password: _password.text, birthday: _birthday.text);
+                    await _auth.register(userModel);
                   }
                 },
               ),
@@ -86,8 +87,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Future<void> _post(User? args, BuildContext context) async {
-    final user = User(
+  Future<void> _post(UserModel? args, BuildContext context) async {
+    final user = UserModel(
         id: args?.id,
         name: _name.text,
         birthday: _birthday.text,
