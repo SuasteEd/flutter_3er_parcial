@@ -1,4 +1,6 @@
 import 'package:examen_3er_parcial/controllers/data_controller.dart';
+import 'package:examen_3er_parcial/controllers/shared_prefs.dart';
+import 'package:examen_3er_parcial/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -12,13 +14,21 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final _shared = SharedPrefs();
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 2), () async {
-      await Get.put(DataController()).getAllTags();
-      Get.to(() => const LoginScreen(),
-          transition: Transition.circularReveal,
-          duration: const Duration(seconds: 2));
+      if (_shared.isLogin) {
+        await Get.put(DataController()).getAllTags();
+        await Get.put(DataController()).getAllUsers();
+        Get.to(() => const HomeScreen(),
+            transition: Transition.circularReveal,
+            duration: const Duration(seconds: 2));
+      } else {
+        Get.to(() => const LoginScreen(),
+            transition: Transition.circularReveal,
+            duration: const Duration(seconds: 2));
+      }
     });
     super.initState();
   }

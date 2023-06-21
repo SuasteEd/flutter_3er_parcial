@@ -91,6 +91,7 @@ class FireBaseResponse {
         birthday: element['birthday'],
         email: element['email'],
         name: element['name'],
+        lastName: element['lastname'],
         password: element['password'],
       ));
     }
@@ -147,6 +148,7 @@ class FireBaseResponse {
     await _users.doc(user.id).update({
       'name': user.name,
       'email': user.email,
+      'lastname': user.lastName, // 'lastname
       'password': user.password,
       'birthday': user.birthday
     });

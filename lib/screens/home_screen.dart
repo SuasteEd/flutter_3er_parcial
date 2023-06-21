@@ -2,7 +2,6 @@ import 'package:examen_3er_parcial/screens/tasks.dart';
 import 'package:examen_3er_parcial/theme/app_theme.dart';
 import 'package:examen_3er_parcial/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';

@@ -1,3 +1,5 @@
+import 'package:examen_3er_parcial/controllers/shared_prefs.dart';
+import 'package:examen_3er_parcial/screens/screens.dart';
 import 'package:examen_3er_parcial/services/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -27,6 +29,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.initState();
     if (widget.user != null) {
       _name.text = widget.user!.name;
+      _lastName.text = widget.user!.lastName;
       _birthday.text = widget.user!.birthday.toString();
       _email.text = widget.user!.email;
       _password.text = widget.user!.password;
@@ -42,11 +45,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _isPressed = false;
   final _controller = Get.put(DataController());
   final _auth = Auth();
+  final _prefs = SharedPrefs();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Register'),
+        actions: [
+          widget.user == null
+              ? Container()
+              : IconButton(
+                  onPressed: () async {
+                    await _controller.deleteUser(widget.user!.id!);
+                    await _auth.deleteAccount();
+                    _prefs.clean();
+                    Get.to(const LoginScreen());
+                  },
+                  icon: const Icon(Icons.delete),
+                )
+        ],
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -73,10 +90,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    _isPressed = true;
-                    //await _post(args, context);
-                    final userModel = UserModel(name: _name.text, email: _email.text, password: _password.text, birthday: _birthday.text);
-                    await _auth.register(userModel);
+                    setState(() {
+                      _isPressed = true;
+                    });
+                    if (widget.user == null) {
+                      final userModel = UserModel(
+                          name: _name.text,
+                          lastName: _lastName.text,
+                          email: _email.text,
+                          password: _password.text,
+                          birthday: _birthday.text);
+                      await _auth.register(userModel);
+                      setState(() {
+                        _isPressed = false;
+                      });
+                      // ignore: use_build_context_synchronously
+                      alertSucces(context, 'User saved successfully!');
+                    } else {
+                      final user = widget.user;
+                      final userModel = UserModel(
+                          id: user!.id,
+                          name: _name.text,
+                          lastName: _lastName.text,
+                          email: _email.text,
+                          password: _password.text,
+                          birthday: _birthday.text);
+                      await _controller.updateUser(userModel);
+                      user.email != _email.text
+                          ? await _auth.updateEmail(userModel.email)
+                          : null;
+                      user.password != _password.text
+                          ? await _auth.updatePassword(userModel.password)
+                          : null;
+                      // ignore: use_build_context_synchronously
+                      alertSucces(context, 'User updated successfully!');
+                    }
                   }
                 },
               ),
@@ -87,39 +135,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Future<void> _post(UserModel? args, BuildContext context) async {
-    final user = UserModel(
-        id: args?.id,
-        name: _name.text,
-        birthday: _birthday.text,
-        email: _email.text,
-        password: _password.text);
-    if (args == null) {
-      if (await _controller.addUser(user)) {
-        _isPressed = false;
-        setState(() {});
-        // ignore: use_build_context_synchronously
-        alertSucces(context, 'User saved successfully!');
-      } else {
-        _isPressed = false;
-        setState(() {});
-        // ignore: use_build_context_synchronously
-        alertError(context, 'Error saving user!');
-      }
-    } else {
-      if (await _controller.updateUser(user)) {
-        _isPressed = false;
-        setState(() {});
-        // ignore: use_build_context_synchronously
-        alertSucces(context, 'User updated successfully!');
-      } else {
-        _isPressed = false;
-        setState(() {});
-        // ignore: use_build_context_synchronously
-        alertError(context, 'Error updating user!');
-      }
-    }
-  }
+  // Future<void> _post(UserModel? args, BuildContext context) async {
+  //   final user = UserModel(
+  //       id: args?.id,
+  //       name: _name.text,
+  //       birthday: _birthday.text,
+  //       email: _email.text,
+  //       password: _password.text);
+  //   if (args == null) {
+  //     if (await _controller.addUser(user)) {
+  //       _isPressed = false;
+  //       setState(() {});
+  //       // ignore: use_build_context_synchronously
+  //       alertSucces(context, 'User saved successfully!');
+  //     } else {
+  //       _isPressed = false;
+  //       setState(() {});
+  //       // ignore: use_build_context_synchronously
+  //       alertError(context, 'Error saving user!');
+  //     }
+  //   } else {
+  //     if (await _controller.updateUser(user)) {
+  //       _isPressed = false;
+  //       setState(() {});
+  //       // ignore: use_build_context_synchronously
+  //       alertSucces(context, 'User updated successfully!');
+  //     } else {
+  //       _isPressed = false;
+  //       setState(() {});
+  //       // ignore: use_build_context_synchronously
+  //       alertError(context, 'Error updating user!');
+  //     }
+  //   }
+  // }
 }
 
 class UserForm extends StatefulWidget {

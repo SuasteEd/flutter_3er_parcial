@@ -1,3 +1,5 @@
+import 'package:examen_3er_parcial/alerts/alert_error.dart';
+import 'package:examen_3er_parcial/controllers/shared_prefs.dart';
 import 'package:examen_3er_parcial/services/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final username = TextEditingController();
   final password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final _prefs = SharedPrefs();
   final _auth = Auth();
   bool _isPressed = false;
 
@@ -48,18 +51,23 @@ class _LoginScreenState extends State<LoginScreen> {
                 text: _isPressed
                     ? const LoadingButton()
                     : const Text('Sign in', style: AppTheme.textButton),
-                onPressed: () {
-                  login();
+                onPressed: () async {
+                  
                   if (_formKey.currentState!.validate()) {
                     setState(() {
                       _isPressed = true;
                     });
-                    
-                    Future.delayed(const Duration(seconds: 2), () {
-                      Navigator.of(context)
-                          .pushNamedAndRemoveUntil('home', (route) => false);
-                    });
-                   // _auth.login(username.text, password.text);
+
+                    await _auth.login(username.text, password.text);
+                    login();
+                   if(_prefs.isLogin){
+                     Get.offNamed('/');} else {
+                        setState(() {
+                          _isPressed = false;
+                        });
+                        alertError(context, 'Invalid credentials');
+                     } 
+                    // _auth.login(username.text, password.text);
                   }
                 },
               ),
@@ -85,18 +93,18 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-}
 
-void login(){
-  FirebaseAuth.instance
-  .authStateChanges()
-  .listen((User? user) {
-    if (user == null) {
-      print('User is currently signed out!');
-    } else {
-      print('User is signed in!');
-    }
-  });
+  void login() {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        print('User is currently signed out!');
+        _prefs.isLogin = false;
+      } else {
+        print('User is signed in!');
+        _prefs.isLogin = true;
+      }
+    });
+  }
 }
 
 class LoginForm extends StatelessWidget {

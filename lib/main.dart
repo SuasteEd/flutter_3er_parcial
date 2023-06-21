@@ -7,6 +7,7 @@ import 'routes/app_routes.dart';
 import 'theme/app_theme.dart';
 
 late SharedPreferences sharedPreferences;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   sharedPreferences = await SharedPreferences.getInstance();

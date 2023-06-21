@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:examen_3er_parcial/controllers/shared_prefs.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -6,6 +7,7 @@ import '../models/user_model.dart';
 
 class Auth {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final _shared = SharedPrefs();
 
   Future<void> register(UserModel userModel) async {
     try {
@@ -13,26 +15,25 @@ class Auth {
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: userModel.email,
         password: userModel.password,
-        
       );
 
       User? user = userCredential.user;
-
       await createAuthUser(user!.uid, userModel);
     } catch (e) {
       print('Error al registrar el usuario');
     }
   }
 
-  // Future<bool> login(String email, String password) async {
-  //   await Firebase.initializeApp();
-  //   try {
-  //     await _auth.signInWithEmailAndPassword(email: email, password: password);
-  //      User? user = userCredential.user;
-  //   } on FirebaseAuthException catch (e) {
-  //     print(e.message);
-  //   }
-  // }
+  Future<void> login(String email, String password) async {
+    await Firebase.initializeApp();
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      User? user = _auth.currentUser;
+      _shared.uid = user!.uid;
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
+    }
+  }
 
   Future<void> logout() async {
     await Firebase.initializeApp();
@@ -138,31 +139,30 @@ class Auth {
   }
 
   Future<void> createAuthUser(String uid, UserModel user) async {
-  try {
-    CollectionReference users = FirebaseFirestore.instance.collection('User');
+    try {
+      CollectionReference users = FirebaseFirestore.instance.collection('User');
 
-    await users.doc(uid).set({
-      'name': user.name,
-      'email': user.email,
-      'password': user.password,
-      'birthday': user.birthday,
-    });
-    print('Se ha creado el usuario');
-  } catch (e) {
-    print('Error al crear el usuario');
+      await users.doc(uid).set({
+        'name': user.name,
+        'lastname': user.lastName,
+        'email': user.email,
+        'password': user.password,
+        'birthday': user.birthday,
+      });
+      _shared.uid = uid;
+      print('Se ha creado el usuario');
+    } catch (e) {
+      print('Error al crear el usuario');
+    }
+
+    // UserLocal user = UserLocal(
+    //   name: _nameController.text,
+    //   lastname: _lastnameController.text,
+    //   age: int.parse(_ageController.text),
+    //   gender: _genderController.text,
+    //   email: _emailController.text,
+    //   password: _passwordController.text,
+    // );
+    // controller.addUser(user);
   }
-
-  // UserLocal user = UserLocal(
-  //   name: _nameController.text,
-  //   lastname: _lastnameController.text,
-  //   age: int.parse(_ageController.text),
-  //   gender: _genderController.text,
-  //   email: _emailController.text,
-  //   password: _passwordController.text,
-  // );
-  // controller.addUser(user);
-}
-
-
-
 }
