@@ -3,6 +3,7 @@ import 'package:examen_3er_parcial/screens/screens.dart';
 import 'package:examen_3er_parcial/services/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:quickalert/quickalert.dart';
 import '../alerts/alert_error.dart';
 import '../alerts/alert_successful.dart';
 import '../controllers/data_controller.dart';
@@ -104,8 +105,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       setState(() {
                         _isPressed = false;
                       });
+                      _prefs.isLogin = true;
                       // ignore: use_build_context_synchronously
-                      alertSucces(context, 'User saved successfully!');
+                      QuickAlert.show(
+                        context: context,
+                        type: QuickAlertType.success,
+                        title: 'Success',
+                        animType: QuickAlertAnimType.slideInDown,
+                        confirmBtnColor: AppTheme.secondary,
+                        width: 300,
+                        text: 'User saved successfully!',
+                        barrierDismissible: false,
+                        onConfirmBtnTap: () => Navigator.of(context)
+                            .pushNamedAndRemoveUntil('/', (route) => false),
+                      );
                     } else {
                       final user = widget.user;
                       final userModel = UserModel(
